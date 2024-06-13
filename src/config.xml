@@ -1,0 +1,9 @@
+<webconf>
+  <port>5454</port>
+  <root>web/</root>
+  <accept>127.0.0.1</accept>
+  <accept>0.0.0.0</accept>
+  <reject></reject>
+  <acceslog>logs/access.log</acceslog>
+  <errorlog>logs/error.log</errorlog>
+</webconf>
