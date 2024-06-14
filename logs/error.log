@@ -1,20 +1,5 @@
-2024-06-13 11:12:44 - Erreur lors du démarrage du serveur : Address already in use: bind
-2024-06-13 11:13:20 - Connexion refusée pour l'adresse IP non acceptée : 0.0.0.0
-2024-06-13 11:13:20 - Connexion refusée pour l'adresse IP non acceptée : 0.0.0.0
-2024-06-13 11:13:21 - Connexion refusée pour l'adresse IP non acceptée : 0.0.0.0
-2024-06-13 11:13:21 - Connexion refusée pour l'adresse IP non acceptée : 0.0.0.0
-2024-06-13 11:13:21 - Connexion refusée pour l'adresse IP non acceptée : 0.0.0.0
-2024-06-13 11:13:23 - Connexion refusée pour l'adresse IP non acceptée : 0.0.0.0
-2024-06-13 11:13:23 - Connexion refusée pour l'adresse IP non acceptée : 0.0.0.0
-2024-06-13 11:13:23 - Connexion refusée pour l'adresse IP non acceptée : 0.0.0.0
-2024-06-13 11:13:24 - Connexion refusée pour l'adresse IP non acceptée : 0.0.0.0
-2024-06-13 11:13:24 - Connexion refusée pour l'adresse IP non acceptée : 0.0.0.0
-2024-06-13 11:13:25 - Connexion refusée pour l'adresse IP non acceptée : 0.0.0.0
-2024-06-13 11:13:30 - Connexion refusée pour l'adresse IP non acceptée : 0.0.0.0
-2024-06-13 11:13:30 - Connexion refusée pour l'adresse IP non acceptée : 0.0.0.0
-2024-06-13 11:13:30 - Connexion refusée pour l'adresse IP non acceptée : 0.0.0.0
-2024-06-13 11:13:36 - Connexion refusée pour l'adresse IP non acceptée : 0.0.0.0
-2024-06-13 11:13:36 - Connexion refusée pour l'adresse IP non acceptée : 0.0.0.0
-2024-06-13 11:13:36 - Connexion refusée pour l'adresse IP non acceptée : 0.0.0.0
-2024-06-13 11:16:34 - Erreur lors du traitement de la requête client : Une connexion établie a été abandonnée par un logiciel de votre ordinateur hôte
-2024-06-14 11:12:17 - Erreur lors du traitement de la requête client : Une connexion établie a été abandonnée par un logiciel de votre ordinateur hôte
+[2024-06-14 14:01:43] Ressource non trouvée pour l'adresse IP : 0.0.0.0, Ressource : /status
+[2024-06-14 14:05:10] Ressource non trouvée pour l'adresse IP : 0.0.0.0, Ressource : /status
+[2024-06-14 14:05:13] Ressource non trouvée pour l'adresse IP : 0.0.0.0, Ressource : /status
+[2024-06-14 14:08:53] Ressource non trouvée pour l'adresse IP : 0.0.0.0, Ressource : /status
+[2024-06-14 14:14:33] Erreur lors de l'acceptation de la connexion : Une connexion établie a été abandonnée par un logiciel de votre ordinateur hôte
