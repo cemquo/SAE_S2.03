@@ -53,7 +53,12 @@ public class HttpServer {
                     }
 
                     if (isAccepted(clientIP)) {
-                        handleClientRequest(clientSocket, clientIP);
+                        try (BufferedReader in = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()))) {
+                            String requestLine = in.readLine();
+                            if (requestLine != null) {
+                                handleClientRequest(clientSocket, clientIP, requestLine);
+                            }
+                        }
                     } else {
                         logError("Connexion refusée pour l'adresse IP non acceptée : " + clientIP);
                         clientSocket.close();
@@ -62,6 +67,7 @@ public class HttpServer {
                     logError("Erreur lors de l'acceptation de la connexion : " + e.getMessage());
                 }
             }
+
         } catch (IOException e) {
             logError("Erreur lors du démarrage du serveur : " + e.getMessage());
         }
@@ -144,20 +150,21 @@ public class HttpServer {
         return false;
     }
 
-    private static void handleClientRequest(Socket clientSocket, String clientIP) {
+    private static void handleClientRequest(Socket clientSocket, String clientIP, String requestLine) {
         try (BufferedReader in = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
              OutputStream out = clientSocket.getOutputStream()) {
 
-            String requestLine = in.readLine();
             System.out.println("Request: " + requestLine);
             logAccess(clientIP + " - " + requestLine);
 
-            if (requestLine != null && requestLine.startsWith("GET")) {
+            if (requestLine.startsWith("GET /status")) {
+                handleStatusRequest(out);
+            } else if (requestLine.startsWith("GET")) {
                 String[] tokens = requestLine.split(" ");
-                String fileName = tokens[1].substring(1); // Retirer le '/' initial
+                String fileName = tokens[1].substring(1); // Remove initial '/'
 
                 if (fileName.isEmpty()) {
-                    fileName = "index.html"; // Rediriger vers index.html si aucun fichier spécifié
+                    fileName = "index.html"; // Redirect to index.html if no specific file is requested
                 }
 
                 File file = new File(rootDirectory, fileName);
@@ -169,9 +176,47 @@ public class HttpServer {
             }
 
         } catch (IOException e) {
-            logError("Erreur lors du traitement de la requête client : " + e.getMessage());
+            logError("Error handling client request: " + e.getMessage());
         }
+
+
+}
+
+    private static void handleStatusRequest(OutputStream out) throws IOException {
+        // Get memory usage
+        MemoryMXBean memoryBean = ManagementFactory.getMemoryMXBean();
+        MemoryUsage heapUsage = memoryBean.getHeapMemoryUsage();
+        long availableMemory = (heapUsage.getMax() - heapUsage.getUsed()) / (1024 * 1024); // Convert to MB
+
+        // Get disk space available
+        File root = new File("/");
+        long freeDiskSpace = root.getFreeSpace() / (1024 * 1024); // Convert to MB
+
+        // Get number of running processes
+        int numberOfProcesses = ManagementFactory.getOperatingSystemMXBean().getAvailableProcessors();
+
+        // Construct the HTML response
+        String statusMessage = "<html>\n" +
+                "<body style=\"background-color: #f0f0f0;\">\n" + // je ne sais pas pourquoi mais la page est noir par défaut
+                "<h1>Server Status</h1>\n" +
+                "<p>Mémoire disponible: " + availableMemory + " MB</p>\n" +
+                "<p>Espace disque disponible: " + freeDiskSpace + " MB</p>\n" +
+                "<p>Nombre de processeurs: " + numberOfProcesses + "</p>\n" +
+                "</body>\n" +
+                "</html>";
+
+        String header = "HTTP/1.1 200 OK\r\n" +
+                "Content-Length: " + statusMessage.length() + "\r\n" +
+                "Content-Type: text/html\r\n" +
+                "\r\n";
+
+        out.write(header.getBytes());
+        out.write(statusMessage.getBytes());
+        out.flush();
     }
+
+
+
 
     private static void sendResponse(OutputStream out, int statusCode, String statusMessage, File file) throws IOException {
         byte[] fileContent = Files.readAllBytes(file.toPath());
@@ -198,10 +243,13 @@ public class HttpServer {
             return "audio/mpeg";
         } else if (fileName.endsWith(".mp4")) {
             return "video/mp4";
+        } else if (fileName.endsWith(".txt")) {
+            return "text/plain";
         } else {
-            return "application/octet-stream"; // Type par défaut si non déterminé
+            return "application/octet-stream"; // Default type if not determined
         }
     }
+
 
 
 
@@ -246,5 +294,5 @@ public class HttpServer {
         }
     }
 
-    
+
 }
