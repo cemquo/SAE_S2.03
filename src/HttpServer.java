@@ -160,10 +160,6 @@ public class HttpServer {
                     fileName = "index.html"; // Rediriger vers index.html si aucun fichier spécifié
                 }
 
-                if (fileName.isEmpty()) {
-                    fileName = "index.html"; // Rediriger vers index.html si aucun fichier spécifié
-                }
-
                 File file = new File(rootDirectory, fileName);
                 if (file.exists() && !file.isDirectory()) {
                     sendResponse(out, 200, "OK", file);
@@ -249,4 +245,6 @@ public class HttpServer {
             System.err.println("Erreur lors de la création du fichier de journal : " + e.getMessage());
         }
     }
+
+    
 }
